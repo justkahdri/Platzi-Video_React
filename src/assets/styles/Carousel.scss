@@ -1,8 +1,15 @@
 .carousel {
-  // overflow: scroll;
+  overflow-x: scroll;
   padding-left: 30px;
   width: 100%;
   position: relative;
+  /* This is the magic bit for Firefox */
+  scrollbar-width: none;
+}
+
+.carousel::-webkit-scrollbar {
+  /* This is the magic bit for WebKit */
+  display: none;
 }
 
 .carousel__container {

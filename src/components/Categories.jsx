@@ -4,7 +4,7 @@ import '../assets/styles/Categories.scss'
 
 const Categories = (props) => (
   <div className='categories'>
-    <h3 class="categories__title">Mi lista</h3>
+    <h3 className="categories__title">{props.title}</h3>
     {props.children}
   </div>
 )
