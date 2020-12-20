@@ -1,4 +1,5 @@
 import React from 'react';
+import useInitialState from '../hooks/useInitialState';
 
 import Header from '../components/Header';
 import Search from '../components/Search';
@@ -9,39 +10,45 @@ import Footer from '../components/Footer';
 
 import '../assets/styles/App.scss';
 
-const App = () => (
-  <div className='App'>
-    <Header />
-    <Search />
+const API = 'http://localhost:3000/initalState';
 
-    <Categories title='Mi Lista'>
-      <Carousel>
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-      </Carousel>
-    </Categories>
+const App = () => {
+  const state = useInitialState(API);
 
-    <Categories title='Tendencias'>
-      <Carousel>
-        <CarouselItem />
-        <CarouselItem />
-      </Carousel>
-    </Categories>
+  return state.length === 0 ? <h1>Loading...</h1> : (
+    <div className='App'>
+      <Header />
+      <Search />
 
-    <Categories title='Originales de Platzi Video'>
-      <Carousel>
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-        <CarouselItem />
-      </Carousel>
-    </Categories>
+      {state.mylist.length != 0 && (
+        <Categories title='Mi Lista'>
+          <Carousel>
+            {state.mylist.map(item =>
+              <CarouselItem key={item.id} {...item}/>
+            )}
+          </Carousel>
+        </Categories>
+      )}
 
-    <Footer />
-  </div>
-);
+      <Categories title='Tendencias'>
+        <Carousel>
+          {state.trends.map(item =>
+            <CarouselItem key={item.id} {...item}/>
+          )}
+        </Carousel>
+      </Categories>
+
+      <Categories title='Originales de Platzi Video'>
+        <Carousel>
+          {state.originals.map(item =>
+            <CarouselItem key={item.id} {...item}/>
+          )}
+        </Carousel>
+      </Categories>
+
+      <Footer />
+    </div>
+  );
+}
 
 export default App;
